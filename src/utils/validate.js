@@ -9,6 +9,10 @@ export async function validateCarName(carName) {
     if (name.length > 5) {
       throw new Error('[ERROR]자동차 이름은 최대 5글자 입니다. 다시 작성해주세요.');
     }
+
+    if (name === '' || name === ' ') {
+      throw new Error('[ERROR]자동차 이름이 비어있습니다. 다시 작성해주세요.');
+    }
   }
 }
 

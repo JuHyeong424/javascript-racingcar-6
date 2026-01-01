@@ -1,29 +1,20 @@
-import {Console} from "@woowacourse/mission-utils";
 import {CarName, TryCount} from "./view/InputView.js";
+import {getResult} from "./utils/getResult.js";
+import {printRaceResult, printWinner} from "./view/OutputView.js";
+import {Console} from "@woowacourse/mission-utils";
 import {validateCarName, validateTryCount} from "./utils/validate.js";
 
 class App {
   async play() {
-    let carName;
-    while (true) {
-      try {
-        carName = await CarName();
-        await validateCarName(carName);
-        break;
-      } catch (e) {
-        Console.print(e.message);
-      }
-    }
+    const carName = await CarName();
+    await validateCarName(carName);
 
-    let tryCount;
-    while (true) {
-      try {
-        tryCount = await TryCount();
-        await validateTryCount(tryCount);
-      } catch (e) {
-        Console.print(e.message);
-      }
-    }
+    const tryCount = await TryCount();
+    await validateTryCount(tryCount);
+
+    const [carNameArray, forwardArray, winner] = await getResult(carName, tryCount);
+    await printRaceResult(tryCount, carNameArray, forwardArray);
+    await printWinner(winner);
   }
 }
 
